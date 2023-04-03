@@ -14,7 +14,7 @@
         }
 
         .container {
-            height: 95vh;
+            min-height: 95vh;
             width: 75%;
             margin: auto;
             background-color: black;
@@ -50,6 +50,66 @@
         input {
             border-radius: 5px;
         }
+
+        .all-books {
+            border-top: 2px solid white;
+            display: flex;
+            padding: 10px;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .book-container {
+            background-color: #F1F1F1;
+            flex: 1 1 0px;
+            margin: 5px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 5px;
+        }
+
+        .b-name {
+            color: #0036C2;
+            font-weight: 800;
+            font-size: 30px;
+            min-height: 115px;
+        }
+
+        .b-author {
+            color: #1F1F1F;
+            font-size: 11px;
+        }
+
+        .b-category {
+            color: #000000;
+            font-weight: 800;
+        }
+
+        .text-container {
+            padding: 0 4px 0 6px;
+        }
+
+        .btn-container {
+            display: flex;
+        }
+
+        .btn {
+            flex: 1 1 0px;
+            height: 37px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .btn-update {
+            background: #0036C2;
+        }
+
+        .btn-delete {
+            background: #BC2A2A;
+        }
     </style>
 </head>
 
@@ -81,9 +141,39 @@
                 </div>
 
                 <button id="add-btn" type="submit">Add Book</button>
+
+
             </div>
         </form>
+
+        <div class="sub-container">
+            <h2>All Books</h2>
+            <div class="all-books">
+
+                <%bData.forEach(function(b){ %>
+                    <div class="book-container">
+                        <div class="text-container">
+
+                            <p class="b-name">
+                                <%=b.title%>
+                            </p>
+                            <p class="b-author">
+                                By <%=b.author%>
+                            </p>
+                            <p class="b-category">
+                                <%=b.category%>
+                            </p>
+                        </div>
+                        <div class="btn-container">
+                            <button class="btn-update btn">Update</button>
+                            <button class="btn-delete btn">Delete</button>
+                        </div>
+                    </div>
+                    <% });%>
+            </div>
+        </div>
     </div>
+
 
 </body>
 

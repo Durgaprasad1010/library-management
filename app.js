@@ -245,7 +245,7 @@ app.post("/login", async (req, res) => {
 })
 
 app.post("/forget_password", async (req, res) => {
-    console.log("hello");
+    // console.log("hello");
     console.log(req.body);
     const { emailId } = req.body;
 
@@ -304,12 +304,22 @@ app.post("/forget_password", async (req, res) => {
 app.get("/dashboard", isAuth, async (req, res) => {
     console.log(req.body)
     const username = req.session.user.username;
-    const bookdata = await bookSchema.findOne({ username: username })
-    console.log(bookdata)
 
-    res.render("dashboard", {
-        a: bookdata
-    })
+
+    try {
+        const bookdata = await bookSchema.find({ username: username })
+        // console.log(bookdata)
+        res.render("dashboard", {
+            bData: bookdata
+        })
+
+    } catch (err) {
+        return res.send({
+            status: 500,
+            message: "Database error",
+            error: err,
+        });
+    }
 })
 app.post("/dashboard", isAuth, (req, res) => {
     console.log(req.session.user)
@@ -321,13 +331,14 @@ app.get("./newPassword", (req, res) => {
 
 //books api
 app.post("/addBook", isAuth, async (req, res) => {
-    console.log("HEllo")
+    // console.log("HEllo")
     console.log(req.body);
+    // console.log(req.body['book-title']);
 
-    const booktitle = req.body.title;
-    const bookauthor = req.body.author;
-    const bookprice = req.body.price;
-    const bookcategory = req.body.category;
+    const booktitle = req.body['book-title'];
+    const bookauthor = req.body['author-name'];
+    const bookprice = req.body['book-price'];
+    const bookcategory = req.body['book-category'];
 
 
 
@@ -340,10 +351,15 @@ app.post("/addBook", isAuth, async (req, res) => {
         username: req.session.user.username
     });
 
+    // const newBook = new bookSchema(req.body)
+
     try {
         const booksDb = await newBook.save();
 
         console.log(newBook);
+        console.log(booksDb);
+        // console.log("Hello")
+        // console.log(typeof (bookdata))
         return res.send({
             status: 201,
             message: "Book saved successfully",
